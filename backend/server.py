@@ -1,34 +1,26 @@
-#imports
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
-from routes.query import router as query_router
-
-################################### CODE ####################################
+from routes.router import router  # Ensure this file contains both HTTP & WebSocket routes
 
 app = FastAPI()
-############### CORS
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:3001",
-]
 
+# --------------- CORS Middleware ----------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost", "http://localhost:3000", "http://localhost:3001"],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
 )
 
-############## Routes
-app.include_router(query_router,tags=["Chat"])
+# --------------- Include Routes ----------------
+app.include_router(router, tags=["API"])
 
 @app.get("/")
-def root_path():
-    return {"message": "Server is Live"}
+async def root():
+    return {"message": "Server is Live!"}
 
-############## Main
+# --------------- Run Server ----------------
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
