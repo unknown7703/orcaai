@@ -4,7 +4,7 @@ interface ChatProps {
   }
   
 interface ChatResponseSteps {
-  action_type: "SEARCH" | "RESEARCH" | "CREATE" | "INSERT" | "PREPARE" | "DELETE" | "RUN";
+  action_type: string;
   message: string;
 }
 
