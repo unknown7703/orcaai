@@ -40,7 +40,7 @@ async def generate_create_command(task: str):
         stop=None,
     )
     response=json.loads(completion.choices[0].message.content)
-    print(response)
+    #print(response)
     file_name=response["filename"]
     command=response["command"]
     return (file_name,command)
