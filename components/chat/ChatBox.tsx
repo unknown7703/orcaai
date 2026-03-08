@@ -6,8 +6,11 @@ import { nanoid } from 'nanoid';
 import { useLocalChatConfig } from "@/hooks/useLocalChatConfig";
 import { ChatWindow } from "./ChatWindow";
 import { InputBox } from "./InputBox";
+import { ActiveMode, Message, Model } from "@/types/ai";
+import { useChatContext } from "@/contexts/chatContext";
 
 export function ChatBox() {
+  
   const [messages, setMessages] = useState<Message[]>([]);
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,7 +24,7 @@ export function ChatBox() {
     const userMessage: Message = {
       id: nanoid(),
       role: 'user',
-      content: inputValue,
+      text: inputValue,
     };
 
     setMessages(prevMessages => [...prevMessages, userMessage]);
@@ -48,7 +51,7 @@ export function ChatBox() {
       const assistantMessage: Message = {
         id: nanoid(),
         role: 'assistant',
-        content: result.response || "Sorry, I couldn't get a response.",
+        text: result.response || "Sorry, I couldn't get a response.",
       };
       
       setMessages(prevMessages => [...prevMessages, assistantMessage]);
@@ -58,7 +61,7 @@ export function ChatBox() {
       const errorMessage: Message = {
         id: nanoid(),
         role: 'assistant',
-        content: "Sorry, something went wrong. Please try again.",
+        text: "Sorry, something went wrong. Please try again.",
       };
       setMessages(prevMessages => [...prevMessages, errorMessage]);
     } finally {

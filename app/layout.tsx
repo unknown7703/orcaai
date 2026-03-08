@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono ,Special_Gothic_Expanded_One} from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Special_Gothic_Expanded_One,
+} from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Navbar } from "@/components/common/Navbar";
-import { dark } from '@clerk/themes'
+import { dark } from "@clerk/themes";
+import { ChatContextProvider } from "@/contexts/chatContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +23,7 @@ const geistMono = Geist_Mono({
 const specialFont = Special_Gothic_Expanded_One({
   variable: "--font-special",
   subsets: ["latin"],
-  weight: "400", 
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -37,19 +42,19 @@ export default function RootLayout({
     <ClerkProvider
       appearance={{
         baseTheme: dark,
-      }} >
+      }}
+    >
       <html lang="en" className="dark" suppressHydrationWarning={true}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} ${specialFont.variable} antialiased`}
-        >
-          <Navbar/>
-          {/* Add a main tag with top padding to offset the fixed navbar */}
-          <main className="pt-16">
-            {children}
-          </main>
-        </body>
+        <ChatContextProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} ${specialFont.variable} antialiased`}
+          >
+            <Navbar />
+            {/* Add a main tag with top padding to offset the fixed navbar */}
+            <main className="pt-16">{children}</main>
+          </body>
+        </ChatContextProvider>
       </html>
     </ClerkProvider>
   );
 }
-
