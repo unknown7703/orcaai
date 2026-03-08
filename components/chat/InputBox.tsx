@@ -1,5 +1,6 @@
 // components/chat/InputBox.tsx
 "use client";
+import { ActiveMode, Model } from "@/types/ai";
 import { Waypoints, CirclePlay, ArrowUpRight, Component } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
